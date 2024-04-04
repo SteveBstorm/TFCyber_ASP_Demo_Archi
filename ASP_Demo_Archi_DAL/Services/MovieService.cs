@@ -12,7 +12,7 @@ namespace ASP_Demo_Archi_DAL.Services
     public class MovieService : IMovieRepo
     {
         //private string connectionString = @"Data Source=DESKTOP-56GOFPS\DEVPERSO;Initial Catalog=TFCyberSecu_MovieDB;Integrated Security=True;Connect Timeout=60;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False";
-        private string connectionString = @"Data Source=STEVEBSTORM\MSSQLSERVER01;Initial Catalog=TFNetCyber_DBMovie;Integrated Security=True;Connect Timeout=60;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+        private string connectionString = @"Data Source=STEVEBSTORM\MSSQLSERVER01;Initial Catalog=TFCyber_IMDB;Integrated Security=True;Connect Timeout=60;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
         //public List<Movie> maListe { get; set; }
         public MovieService()
         {
@@ -89,7 +89,7 @@ namespace ASP_Demo_Archi_DAL.Services
             return m;
         }
 
-        public bool Create(Movie movie)
+        public int Create(Movie movie)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -97,6 +97,7 @@ namespace ASP_Demo_Archi_DAL.Services
                 {
                     cmd.Connection = connection;
                     cmd.CommandText = "INSERT INTO Movie (Title, Description, RealisatorId) " +
+                        "OUTPUT inserted.Id " +
                         "VALUES (@title, @desc, @real)";
 
                     cmd.Parameters.AddWithValue("title", movie.Title);
@@ -106,7 +107,9 @@ namespace ASP_Demo_Archi_DAL.Services
                     try
                     {
                         connection.Open();
-                        return cmd.ExecuteNonQuery() > 0;
+                        int createdId = (int)cmd.ExecuteScalar();
+                        connection.Close();
+                        return createdId;
                     }
                     catch (SqlException ex)
                     {
@@ -117,7 +120,6 @@ namespace ASP_Demo_Archi_DAL.Services
                     {
                         throw ex;
                     }
-                    connection.Close();
                 }
             }
 

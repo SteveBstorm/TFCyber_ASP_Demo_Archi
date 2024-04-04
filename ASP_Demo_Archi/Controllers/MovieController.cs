@@ -10,11 +10,15 @@ namespace ASP_Demo_Archi.Controllers
     public class MovieController : Controller
     {
         private readonly IMovieRepo _movieRepo;
+        private readonly IPersonRepo _personRepo;
+        private readonly IMovie_PersonRepo _movie_personRepo;
 
-        public MovieController(IMovieRepo movieRepo)
+        public MovieController(IMovieRepo movieRepo, IPersonRepo personRepo, IMovie_PersonRepo movie_personRepo)
         {
             _movieRepo = movieRepo;
-            
+
+            _personRepo = personRepo;
+            _movie_personRepo = movie_personRepo;
         }
         public IActionResult Index()
         {
@@ -30,12 +34,23 @@ namespace ASP_Demo_Archi.Controllers
         public IActionResult Details(int id)
         {
             Movie m = _movieRepo.GetById(id);
-            return View(m);
+            MovieDetailView detail = new MovieDetailView
+            {
+                Id = m.Id,
+                Title = m.Title,
+                Description = m.Description,
+                
+                Realisator = _personRepo.GetById(m.RealisatorId)
+            };
+            return View(detail);
         }
 
         public IActionResult Create()
         {
-            return View();
+         
+            TempData["ListPerson"] = _personRepo.GetAll();
+            MovieCreateForm form = new MovieCreateForm();
+            return View(form);
         }
 
         //Scénario de gestion des erreurs => Voir MovieService (Create)
@@ -47,15 +62,15 @@ namespace ASP_Demo_Archi.Controllers
             {
                 try
                 {
-                    if (_movieRepo.Create(movie.ToDAL()))
+                    int newId = _movieRepo.Create(movie.ToDAL());
+                    foreach(Actor a in movie.Casting)
                     {
-                        return RedirectToAction("Liste");
+                        _movie_personRepo.Create(newId, a.PersonId, a.Role);
                     }
-                    else
-                    {
-                        TempData["ErrorMessage"] = "Une erreur s'est produite lors de l'ajout";
-                        return View(movie);
-                    }
+                    
+                    return RedirectToAction("Liste");
+                    
+                    
                 }
                 catch (Exception ex)
                 {
@@ -79,6 +94,8 @@ namespace ASP_Demo_Archi.Controllers
         public IActionResult Edit(int id)
         {
             Movie aModifier = _movieRepo.GetById(id);
+            TempData["ListPerson"] = _personRepo.GetAll();
+
             return View(aModifier);
         }
 

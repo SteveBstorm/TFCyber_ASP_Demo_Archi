@@ -16,8 +16,14 @@
 
     </div>
     <div class="form-control">
-        Réalisateur : <input type="text" asp-for="Realisator" />
-        <span asp-validation-for="Realisator" class="text-danger"></span>
+        Réalisateur : 
+        <select asp-for="RealisatorId">
+            @foreach (Person p in (IEnumerable<Person>)TempData["ListPerson"])
+            {
+                <option value="@p.Id">@p.Firstname @p.Lastname</option>
+            }
+        </select>
+        <span asp-validation-for="RealisatorId" class="text-danger"></span>
 
     </div>
     <div>

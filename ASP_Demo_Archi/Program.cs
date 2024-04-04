@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IMovieRepo, MovieService>();
+builder.Services.AddScoped<IPersonRepo, PersonService>();
+builder.Services.AddScoped<IMovie_PersonRepo, Movie_PersonService>();
 
 var app = builder.Build();
 

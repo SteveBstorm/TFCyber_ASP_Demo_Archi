@@ -4,7 +4,7 @@ namespace ASP_Demo_Archi_DAL.Repositories
 {
     public interface IMovieRepo
     {
-        bool Create(Movie movie);
+        int Create(Movie movie);
         void Delete(int id);
         void Edit(Movie movie);
         List<Movie> GetAll();

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ASP_Demo_Archi_DAL.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ASP_Demo_Archi.Models
 {
@@ -12,5 +13,22 @@ namespace ASP_Demo_Archi.Models
         public string Description { get; set; }
         [Required]
         public int RealisatorId { get; set; }
+
+        public List<Actor> Casting { get; set; }
+
+        public MovieCreateForm()
+        {
+            Casting = new List<Actor>();
+            Casting.Add(new Actor());
+            Casting.Add(new Actor());
+            Casting.Add(new Actor());
+        }
+    }
+
+    public class Actor
+    {
+        public int MovieId { get; set; }
+        public int PersonId { get; set; }
+        public string Role { get; set; }
     }
 }
