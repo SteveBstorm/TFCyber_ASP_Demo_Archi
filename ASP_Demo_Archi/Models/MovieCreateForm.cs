@@ -11,6 +11,6 @@ namespace ASP_Demo_Archi.Models
         [MinLength(40, ErrorMessage = "La description doit faire un minimum de 40 caractères")]
         public string Description { get; set; }
         [Required]
-        public string Realisator { get; set; }
+        public int RealisatorId { get; set; }
     }
 }

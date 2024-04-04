@@ -40,7 +40,7 @@ namespace ASP_Demo_Archi_DAL.Services
                 Id = (int)reader["Id"],
                 Title = (string)reader["Title"],
                 Description = (string)reader["Description"],
-                Realisator = (string)reader["Realisator"]
+                RealisatorId = (int)reader["RealisatorId"]
             };
         }
 
@@ -96,12 +96,12 @@ namespace ASP_Demo_Archi_DAL.Services
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.Connection = connection;
-                    cmd.CommandText = "INSERT INTO Movie (Title, Description, Realisator) " +
+                    cmd.CommandText = "INSERT INTO Movie (Title, Description, RealisatorId) " +
                         "VALUES (@title, @desc, @real)";
 
                     cmd.Parameters.AddWithValue("title", movie.Title);
                     cmd.Parameters.AddWithValue("desc", movie.Description);
-                    cmd.Parameters.AddWithValue("real", movie.Realisator);
+                    cmd.Parameters.AddWithValue("real", movie.RealisatorId);
 
                     try
                     {
@@ -132,13 +132,13 @@ namespace ASP_Demo_Archi_DAL.Services
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.Connection = connection;
-                    cmd.CommandText = "UPDATE Movie SET Title = @title, Description = @desc, Realisator = @real " +
+                    cmd.CommandText = "UPDATE Movie SET Title = @title, Description = @desc, RealisatorId = @real " +
                         "WHERE Id = @id";
 
                     cmd.Parameters.AddWithValue("id", movie.Id);
                     cmd.Parameters.AddWithValue("title", movie.Title);
                     cmd.Parameters.AddWithValue("desc", movie.Description);
-                    cmd.Parameters.AddWithValue("real", movie.Realisator);
+                    cmd.Parameters.AddWithValue("real", movie.RealisatorId);
 
                     connection.Open();
                     cmd.ExecuteNonQuery();
@@ -170,6 +170,29 @@ namespace ASP_Demo_Archi_DAL.Services
             //maListe.Remove(aSupprimer);
         }
 
-        
+        public List<Movie> GetMovieByPersonId(int PersonId)
+        {
+            List<Movie> list = new List<Movie>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "SELECT * FROM Movie m JOIN Movie_Person mp " +
+                        "ON m.Id = mp.MovieId " +
+                        "WHERE mp.PersonId = @id";
+                    command.Parameters.AddWithValue("id", PersonId);
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            list.Add(Converter(reader));
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return list;
+        }
     }
 }

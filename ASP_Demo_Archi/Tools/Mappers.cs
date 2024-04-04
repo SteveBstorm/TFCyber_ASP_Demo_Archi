@@ -11,7 +11,7 @@ namespace ASP_Demo_Archi.Tools
             {
                 Title = form.Title,
                 Description = form.Description,
-                Realisator = form.Realisator
+                RealisatorId = form.RealisatorId
             };
         }
     }

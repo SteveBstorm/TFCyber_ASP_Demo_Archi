@@ -9,5 +9,6 @@ namespace ASP_Demo_Archi_DAL.Repositories
         void Edit(Movie movie);
         List<Movie> GetAll();
         Movie GetById(int id);
+        List<Movie> GetMovieByPersonId(int PersonId);
     }
 }

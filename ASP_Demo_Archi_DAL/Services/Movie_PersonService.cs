@@ -1,0 +1,34 @@
+﻿using Microsoft.Data.SqlClient;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ASP_Demo_Archi_DAL.Services
+{
+    public class Movie_PersonService
+    {
+        private string connectionString = @"Data Source=STEVEBSTORM\MSSQLSERVER01;Initial Catalog=TFNetCyber_DBMovie;Integrated Security=True;Connect Timeout=60;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+
+        public void Create(int MovieId, int PersonId, string Role)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "INSERT INTO Movie_Person (MovieId, PersonId, Role) " +
+                        "VALUES (@mId, @pId, @role)";
+
+                    cmd.Parameters.AddWithValue("mId", MovieId);
+                    cmd.Parameters.AddWithValue("pId", PersonId);
+                    cmd.Parameters.AddWithValue("role", Role);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+
+                }
+            }
+        }
+    }
+}
