@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASP_Demo_Archi.Controllers
 {
+    // [AdminRequired]
     public class MovieController : Controller
     {
         private readonly IMovieRepo _movieRepo;
@@ -44,7 +45,7 @@ namespace ASP_Demo_Archi.Controllers
             };
             return View(detail);
         }
-
+        [AdminRequired]
         public IActionResult Create()
         {
          
@@ -91,6 +92,7 @@ namespace ASP_Demo_Archi.Controllers
          */
 
         //Afficher le formulaire prérempli sur base d'un id
+        [AdminRequired]
         public IActionResult Edit(int id)
         {
             Movie aModifier = _movieRepo.GetById(id);
@@ -110,7 +112,7 @@ namespace ASP_Demo_Archi.Controllers
             }
             return View(movie);
         }
-
+        [AdminRequired]
         public IActionResult Delete(int id)
         {
             _movieRepo.Delete(id);

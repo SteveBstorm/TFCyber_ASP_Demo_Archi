@@ -61,6 +61,7 @@
     <Build Include="Person.sql" />
     <Build Include="Movie.sql" />
     <Build Include="Movie_Person.sql" />
+    <Build Include="UserAccount.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment1.sql" />

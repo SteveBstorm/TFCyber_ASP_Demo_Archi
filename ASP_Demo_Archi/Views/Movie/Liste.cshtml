@@ -1,5 +1,7 @@
-﻿@using ASP_Demo_Archi_DAL.Models
+﻿@using ASP_Demo_Archi.Tools
+@using ASP_Demo_Archi_DAL.Models
 @model List<Movie>
+@inject SessionManager session
 @*
     @model accueil le SEUL ET UNIQUE objet que la vue peut accepter
     et J'y accède dans la vue grâce à Model
@@ -25,18 +27,25 @@
                        asp-route-id="@m.Id">
                         Détails
                     </a>
-                    <a class="btn btn-outline-dark"
-                       asp-controller="Movie"
-                       asp-action="Edit"
-                       asp-route-id="@m.Id">
-                        Modifier
-                    </a>
-                    <a class="btn btn-outline-dark"
-                       asp-controller="Movie"
-                       asp-action="Delete"
-                       asp-route-id="@m.Id">
-                        Supprimer
-                    </a>
+                    
+
+                    
+                    @if (session.CurrentUser != null && session.CurrentUser.IsAdmin)
+                    {
+                        <a class="btn btn-outline-dark"
+                           asp-controller="Movie"
+                           asp-action="Edit"
+                           asp-route-id="@m.Id">
+                            Modifier
+                        </a>
+                        <a class="btn btn-outline-dark"
+                           asp-controller="Movie"
+                           asp-action="Delete"
+                           asp-route-id="@m.Id">
+                            Supprimer
+                        </a>
+                    }
+                    
                 </td>
             </tr>
 

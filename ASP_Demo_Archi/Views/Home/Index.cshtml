@@ -1,6 +1,14 @@
-﻿@{
+﻿@using ASP_Demo_Archi.Tools
+@inject SessionManager session
+@{
     ViewData["Title"] = "Home Page";
 }
+
+@if(session.CurrentUser != null)
+{
+    <p>Bonjour @session.CurrentUser.Nickname</p>
+}
+
 @{
     string url = "https://fr.web.img6.acsta.net/pictures/15/12/18/10/51/568937.jpg";
 }

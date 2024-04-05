@@ -1,0 +1,77 @@
+﻿@using ASP_Demo_Archi_DAL.Models
+@model PersonDetailView
+
+@{
+    ViewData["Title"] = Model.Firstname + " " + Model.Lastname;
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Person</h4>
+    <hr />
+    <dl class="row">
+        
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Firstname)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Firstname)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Lastname)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Lastname)
+        </dd>
+        <dt class = "col-sm-2">
+            Sa tronche
+        </dt>
+        <dd class = "col-sm-10">
+            <img src="@Model.PictureURL" height="150px"/>
+        </dd>
+    </dl>
+    <hr />
+    <h3>Filmographie</h3>
+    <table class="table table-bordered table-striped tablegreen">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Actions</th>
+
+            </tr>
+        </thead>
+        @foreach (Movie m in Model.Filmographie)
+        {
+            <tr>
+                <td>@m.Title</td>
+                <td>
+                    <a class="btn btn-outline-dark"
+                       asp-controller="Movie"
+                       asp-action="Details"
+                       asp-route-id="@m.Id">
+                        Détails
+                    </a>
+                    <a class="btn btn-outline-dark"
+                       asp-controller="Movie"
+                       asp-action="Edit"
+                       asp-route-id="@m.Id">
+                        Modifier
+                    </a>
+                    <a class="btn btn-outline-dark"
+                       asp-controller="Movie"
+                       asp-action="Delete"
+                       asp-route-id="@m.Id">
+                        Supprimer
+                    </a>
+                </td>
+            </tr>
+
+        }
+
+    </table>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

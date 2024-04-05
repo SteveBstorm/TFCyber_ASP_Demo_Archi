@@ -1,0 +1,35 @@
+﻿@using ASP_Demo_Archi_DAL.Models
+@model IEnumerable<ASP_Demo_Archi_DAL.Models.Person>
+
+@{
+    ViewData["Title"] = "Liste des personnes";
+}
+<fieldset>
+    <legend>Personnes</legend>
+    <table class="table table-bordered table-striped tablegreen">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Actions</th>
+
+            </tr>
+        </thead>
+        @foreach (Person m in Model)
+        {
+            <tr>
+                <td>@m.Firstname @m.Lastname</td>
+                <td>
+                    <a class="btn btn-outline-dark"
+                       asp-controller="Person"
+                       asp-action="Details"
+                       asp-route-id="@m.Id">
+                        Détails
+                    </a>
+                                       
+                </td>
+            </tr>
+
+        }
+
+    </table>
+</fieldset>

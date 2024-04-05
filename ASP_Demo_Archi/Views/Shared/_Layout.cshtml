@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using ASP_Demo_Archi.Tools
+@inject SessionManager session
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -28,9 +30,32 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Movie" asp-action="Liste">Liste des films</a>
                         </li>
+                        @if (session.CurrentUser is not null && session.CurrentUser.IsAdmin)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Movie" asp-action="Create">Ajout Film</a>
+                            </li>
+                        }
+                        
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Movie" asp-action="Create">Ajout Film</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Person" asp-action="Index">Liste des Personnes</a>
                         </li>
+                        @if(session.CurrentUser is null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Register">Créer un compte</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Login">Connexion</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Logout">Déconnexion</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
